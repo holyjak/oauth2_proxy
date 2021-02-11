@@ -131,8 +131,9 @@ func Validate(o *options.Options) error {
 			}
 			keySet := oidc.NewRemoteKeySet(ctx, o.OIDCJwksURL)
 			o.SetOIDCVerifier(oidc.NewVerifier(o.OIDCIssuerURL, keySet, &oidc.Config{
-				ClientID:        o.ClientID,
-				SkipIssuerCheck: o.InsecureOIDCSkipIssuerVerification,
+				ClientID:          o.ClientID,
+				SkipClientIDCheck: true,
+				SkipIssuerCheck:   o.InsecureOIDCSkipIssuerVerification,
 			}))
 		} else {
 			// Configure discoverable provider data.
@@ -141,8 +142,9 @@ func Validate(o *options.Options) error {
 				return err
 			}
 			o.SetOIDCVerifier(provider.Verifier(&oidc.Config{
-				ClientID:        o.ClientID,
-				SkipIssuerCheck: o.InsecureOIDCSkipIssuerVerification,
+				ClientID:          o.ClientID,
+				SkipClientIDCheck: true,
+				SkipIssuerCheck:   o.InsecureOIDCSkipIssuerVerification,
 			}))
 
 			o.LoginURL = provider.Endpoint().AuthURL
